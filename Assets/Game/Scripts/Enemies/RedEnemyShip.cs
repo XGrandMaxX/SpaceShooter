@@ -6,7 +6,7 @@ namespace Game.Scripts.Enemies
     {
         public override void Attack()
         {
-            Debug.Log("Red attack!");
+            throw new System.NotImplementedException();
         }
     }
 }

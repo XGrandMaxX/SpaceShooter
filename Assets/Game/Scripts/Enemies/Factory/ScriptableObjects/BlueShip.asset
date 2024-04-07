@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: BlueShip
   m_EditorClassIdentifier: Assembly-CSharp:Game.Scripts.Enemies.Factory:BlueEnemyFactory
+  _objectPrefab: {fileID: 8824975583316277561, guid: a4767f81a7d1e9541803db7a83e8a713, type: 3}

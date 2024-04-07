@@ -11,8 +11,8 @@ namespace Game.Scripts.Player
     {
         #region constants
         
-        private const int MISSLE_PRELOAD_COUNT = 20;
-
+        public const int MISSLE_PRELOAD_COUNT = 20;
+        
         #endregion
         
         #region attributs
@@ -44,8 +44,6 @@ namespace Game.Scripts.Player
             Debug.Log("PlayerShoot successfully initialize!");
         }
 
-        private void OnDestroy() => _inputData._inputController.UnSubscribe(this);
-
         private void Shoot()
         {
             if(Time.time < _nextAttackTime)
@@ -62,20 +60,23 @@ namespace Game.Scripts.Player
         private async void DeactivateProjectile(Projectile projectile, float _lifeTime = 2)
         {
             await Task.Delay(TimeSpan.FromSeconds(_lifeTime));
-            _projectilePool.Return(projectile);
+            if(projectile != null || projectile.gameObject.activeInHierarchy)
+                _projectilePool.Return(projectile);
         }
 
-        public Projectile Preload() 
+        private Projectile Preload() 
             => Instantiate(_projectilePrefab, transform, true);
         
-        public void ReturnAction(Projectile projectile) 
+        private void ReturnAction(Projectile projectile) 
             => projectile.gameObject.SetActive(false);
         
-        public void GetAction(Projectile projectile)
+        private void GetAction(Projectile projectile)
         {
             projectile.transform.SetPositionAndRotation
                 (transform.position + (Vector3)Vector2.up * 0.5f, transform.rotation);
             projectile.gameObject.SetActive(true);
         }
+        
+        private void OnDestroy() => _inputData._inputController.UnSubscribe(this);
     }
 }
