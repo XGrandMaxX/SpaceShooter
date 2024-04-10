@@ -1,93 +1,46 @@
 using System;
-using System.Collections;
-using System.Threading.Tasks;
-using Game.Scripts.Enemies;
-using Game.Scripts.Enemies.Factory;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Game.Scripts.ScriptableObjects.Wave;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
+using Object = UnityEngine.Object;
+
 
 namespace Game.Scripts.Systems
 {
-    public class EnemyShipSpawner : MonoBehaviour
+    public class EnemyShipSpawner
     {
-        #region constants
-        
-        public const int MISSLE_PRELOAD_COUNT = 20;
-        
-        #endregion
-        
-        #region attributs
-        //Тип врагов, которых должна создать фабрика
-        [SerializeField] private EnemyFactory _enemyFactory;
-        //Созданный фабрикой враг
-        [SerializeField] private EnemyShip _enemyShip;
-        
-        [SerializeField] private Transform[] _pointsToSpawn;
-
-        private ObjectPool<EnemyShip> _enemyPool;
         private WaveController _waveController;
-        
-        #endregion
-        
-        #region constructors
-        
+        private WaveData _waveData => _waveController.WaveData;
+        private List<Wave> _waves => _waveData.Waves;
+
         [Inject]
-        private void Construct(WaveController waveController)
+        private async void Construct(WaveController waveController)
         {
             _waveController = waveController;
-            _waveController.OnWaveEnded += SpawnEnemy;
             
-            if (_enemyFactory != null)
-                _enemyShip = _enemyFactory.CreateEnemy();
+            await SpawnEnemiesAsync();
             
-            _enemyPool = new ObjectPool<EnemyShip>(
-                Preload, 
-                GetAction, 
-                ReturnAction, 
-                MISSLE_PRELOAD_COUNT);
-            
-            SpawnEnemy(3);
+            Debug.Log("EnemyShipSpawner successfully initialize!");
         }
-        
-        #endregion
-        
-        #region methods
 
-        private void SpawnEnemy(float waveDelay) => StartCoroutine(WaveSpawnDelay(waveDelay));
-
-        private IEnumerator WaveSpawnDelay(float delay)
+        private async UniTask SpawnEnemiesAsync()
         {
-            //Логика одновременного спавна в рандомных точках рандомных врагов
-            yield return new WaitForSeconds(delay);
-            
-            int randomIndex = Random.Range(0, _pointsToSpawn.Length);
-            Instantiate(_enemyShip, _pointsToSpawn[randomIndex].position, Quaternion.identity);
+            while (_waveData.CurrentWaveNumber < _waveData.FinalWaveNumber)
+            {
+                for (int i = 0; i < _waves.Count; i++)
+                {
+                    await UniTask.Delay(TimeSpan.FromSeconds(_waves[i].NextWaveDelay));
+                    
+                    for (int j = 0; j < _waves[i].Enemy[j].Count; j++)
+                    {
+                       Object.Instantiate(_waves[i].Enemy[j].SpawnPrefab);
+                        
+                        await UniTask.Delay(TimeSpan.FromSeconds(_waves[i].Enemy[j].SpawnDelay));
+                    }
+                }
+            }
         }
-        
-        private async void DeactivateProjectile(EnemyShip projectile, float _lifeTime = 2)
-        {
-            await Task.Delay(TimeSpan.FromSeconds(_lifeTime));
-            _enemyPool.Return(projectile);
-        }
-        
-        #endregion
-        
-        #region pool methods
-        
-        private EnemyShip Preload() 
-            => Instantiate(_enemyShip, transform, true);
-        
-        private void ReturnAction(EnemyShip projectile) 
-            => projectile.gameObject.SetActive(false);
-        
-        private void GetAction(EnemyShip projectile)
-        {
-            projectile.transform.SetPositionAndRotation
-                (transform.position + (Vector3)Vector2.up * 0.5f, transform.rotation);
-            projectile.gameObject.SetActive(true);
-        }
-        
-        #endregion
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Game.Scripts.Systems;
 using Game.Scripts.Objects;
 using UnityEngine;
@@ -44,7 +45,7 @@ namespace Game.Scripts.Player
             Debug.Log("PlayerShoot successfully initialize!");
         }
 
-        private void Shoot()
+        private async void Shoot()
         {
             if(Time.time < _nextAttackTime)
                 return;
@@ -54,12 +55,12 @@ namespace Game.Scripts.Player
             Projectile projectile = _projectilePool.Get();
             projectile.Launch();
             
-            DeactivateProjectile(projectile, 3);
+           await DeactivateProjectile(projectile, 3);
         }
         
-        private async void DeactivateProjectile(Projectile projectile, float _lifeTime = 2)
+        private async UniTask DeactivateProjectile(Projectile projectile, float _lifeTime = 2)
         {
-            await Task.Delay(TimeSpan.FromSeconds(_lifeTime));
+            await UniTask.Delay(TimeSpan.FromSeconds(_lifeTime));
             if(projectile != null || projectile.gameObject.activeInHierarchy)
                 _projectilePool.Return(projectile);
         }

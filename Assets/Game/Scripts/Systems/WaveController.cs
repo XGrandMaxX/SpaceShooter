@@ -1,19 +1,49 @@
 using System;
+using Game.Scripts.ScriptableObjects.Wave;
 using UnityEngine;
 
 namespace Game.Scripts.Systems
 {
-    //Create Installer for this script
+    [Serializable]
     public class WaveController
     {
-        [SerializeField] private float _waveDelay;
-        [SerializeField] private int _waveNumber;
-        public event Action<float> OnWaveEnded;
+        public event Action OnWaveEnded;
+        public event Action OnWaveStarted;
 
-        private void WaveEnd()
+        internal WaveData WaveData;
+
+        private int _enemyCounter = 0;
+        internal int EnemyCounter
         {
-            OnWaveEnded?.Invoke(_waveDelay);
-            Debug.Log("Волна закончилась");
+            get => _enemyCounter;
+            private set
+            {
+                _enemyCounter = value;
+                if (_enemyCounter > 0) 
+                    return;
+                
+                _enemyCounter = 0;
+            }
         }
+
+        public WaveController(WaveData waveData)
+        {
+            WaveData = waveData;
+            
+            Debug.Log("WaveController successfully initialize!");
+        }
+
+        public void CheckEnemiesOnScene()
+        {
+            if (EnemyCounter <= 0)
+            {
+                
+            }
+        }
+        
+        private void WaveEnd() => OnWaveEnded?.Invoke();
+        private void WaveStart() => OnWaveStarted?.Invoke();
+        
+
     }
 }
