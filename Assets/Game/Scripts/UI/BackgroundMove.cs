@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace Game.Scripts.UI
 {
-    public class BackgroundMove : MonoBehaviour
+    public sealed class BackgroundMove : MonoBehaviour
     {
         [SerializeField] private float _scrollSpeed;
-
+        
         private Transform _transform;
         private float _size;
         private float _targetPosition;

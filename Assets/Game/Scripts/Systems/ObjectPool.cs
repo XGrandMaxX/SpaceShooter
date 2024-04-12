@@ -1,32 +1,25 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Game.Scripts.Systems
 {
-    public class ObjectPool<T>
+    public sealed class ObjectPool<T>
     {
         #region fields
         
-        private Queue<T> _pool = new();
-        private List<T> _active = new(); 
+        internal Queue<T> _pool = new();
+        private List<T> _active = new();
 
-        private readonly Func<T> _preloadFunc;
-        private readonly Action<T> _getAction;
-        private readonly Action<T> _returnAction;
+        private Func<T> _preloadFunc;
+        private Action<T> _getAction;
+        private Action<T> _returnAction;
         
         #endregion
         
         #region Constructor
-
+        
         public ObjectPool(Func<T> preloadFunc, Action<T> getAction, Action<T> returnAction, int poolSize)
         {
-            if (preloadFunc == null)
-            {
-                Debug.LogError("Preload function is null");
-                return;
-            }
-            
             _preloadFunc = preloadFunc;
             _getAction = getAction;
             _returnAction = returnAction;

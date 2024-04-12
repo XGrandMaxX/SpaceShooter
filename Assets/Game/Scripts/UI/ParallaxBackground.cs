@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Scripts.UI
 {
-    public class ParallaxBackground : MonoBehaviour
+    public sealed class ParallaxBackground : MonoBehaviour
     {
         [SerializeField] private Transform _player;
         [SerializeField] private float parallaxEffect = 0.5f;

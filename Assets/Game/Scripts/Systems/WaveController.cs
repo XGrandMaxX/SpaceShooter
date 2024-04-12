@@ -1,49 +1,51 @@
 using System;
+using System.Linq;
+using Cysharp.Threading.Tasks;
 using Game.Scripts.ScriptableObjects.Wave;
 using UnityEngine;
 
 namespace Game.Scripts.Systems
 {
     [Serializable]
-    public class WaveController
+    public sealed class WaveController
     {
-        public event Action OnWaveEnded;
-        public event Action OnWaveStarted;
-
+        public event Action OnLastWaveEnded;
+        
         internal WaveData WaveData;
-
-        private int _enemyCounter = 0;
-        internal int EnemyCounter
+        
+        private static int _enemyCount;
+        public static int EnemyCount
         {
-            get => _enemyCounter;
-            private set
+            get => _enemyCount;
+            set
             {
-                _enemyCounter = value;
-                if (_enemyCounter > 0) 
+                _enemyCount = value;
+
+                if (_enemyCount >= 0)
                     return;
                 
-                _enemyCounter = 0;
+                _enemyCount = 0;
             }
         }
 
+        
         public WaveController(WaveData waveData)
         {
             WaveData = waveData;
-            
+
+            foreach (var enemy in WaveData.Waves.SelectMany(wave => wave.Enemy))
+                EnemyCount += enemy.Amount;
+
             Debug.Log("WaveController successfully initialize!");
         }
 
-        public void CheckEnemiesOnScene()
+        public async void LastWave()
         {
-            if (EnemyCounter <= 0)
-            {
-                
-            }
+            while (EnemyCount > 0)
+                await UniTask.Delay(TimeSpan.FromSeconds(3));
+            
+            OnLastWaveEnded?.Invoke();
+            //LEVEL CLEAR!
         }
-        
-        private void WaveEnd() => OnWaveEnded?.Invoke();
-        private void WaveStart() => OnWaveStarted?.Invoke();
-        
-
     }
 }

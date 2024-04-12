@@ -5,15 +5,16 @@ using Zenject;
 
 namespace Game.Scripts.Installers
 {
-    public class WaveInstaller : MonoInstaller
+    public sealed class WaveInstaller : MonoInstaller
     {
         [SerializeField] private WaveData _waveData;
+        
         public override void InstallBindings() => Bind();
 
         private void Bind()
         {
+            Container.Bind<WaveData>().FromInstance(_waveData).AsSingle().NonLazy();
             Container.Bind<WaveController>().AsSingle().NonLazy();
-            Container.Bind<WaveData>().FromInstance(_waveData).AsTransient().NonLazy();
         }
     }
 }

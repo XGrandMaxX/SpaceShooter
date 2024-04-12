@@ -6,17 +6,18 @@ using UnityEngine;
 namespace Game.Scripts.ScriptableObjects.Wave
 {
     [CreateAssetMenu(menuName = "newWave")]
-    public class WaveData : ScriptableObject
+    public sealed class WaveData : ScriptableObject
     {
-        [SerializeField] internal float CurrentWaveNumber;
-        [SerializeField] internal float FinalWaveNumber;
+        private void OnEnable() => CurrentWaveNumber = 0;
+
+        [SerializeField] internal sbyte CurrentWaveNumber = 0;
         [SerializeField] internal List<Wave> Waves;
     }
 
     [Serializable]
     public struct Wave
     {
-        [SerializeField] internal float NextWaveDelay;
+        [SerializeField] internal byte NextWaveDelay;
         [SerializeField] internal EnemySettings[] Enemy;
     }
 
@@ -25,10 +26,8 @@ namespace Game.Scripts.ScriptableObjects.Wave
     {
         [SerializeField] internal EnemyShip SpawnPrefab;
         [SerializeField] internal float SpawnDelay;
-        
+
         [Space(10)]
-        
-        [SerializeField] internal int Count;
-        [SerializeField] internal float Level;
+        [SerializeField] internal short Amount;
     }
 }
