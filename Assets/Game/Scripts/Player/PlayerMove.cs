@@ -4,25 +4,30 @@ using Zenject;
 
 namespace Game.Scripts.Player
 {
-    public class PlayerMove : MonoBehaviour
+    public sealed class PlayerMove : MonoBehaviour
     {
         [SerializeField] private float _speed;
+        
         private Vector2 _direction;
 
         private Rigidbody2D _rigidbody2D;
-        private InputActions _inputActions;
 
+        private PlayerInputData _inputData;
+
+        
         [Inject]
-        private void Construct(InputController inputController)
+        private void Construct(PlayerInputData playerInputData, InputController inputController)
         {
-            _inputActions = inputController.InputActions;
+            _inputData = playerInputData;
+            _inputData._inputController = inputController;
             
-            Initialize();
-        }
-
-        private void Initialize()
-        {
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
+
+        private void Update() 
+            => _direction = _inputData.PlayerInput.Move.ReadValue<Vector2>();
+
+        private void LateUpdate() 
+            => _rigidbody2D.velocity = new Vector2(_direction.x, _direction.y) * _speed;
     }
 }
