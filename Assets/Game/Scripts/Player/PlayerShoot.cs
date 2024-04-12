@@ -1,28 +1,32 @@
 using System;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Game.Scripts.Systems;
 using Game.Scripts.Objects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Game.Scripts.Player
 {
-    public class PlayerShoot : MonoBehaviour
+    public sealed class PlayerShoot : MonoBehaviour
     {
         #region constants
         
-        private const int MISSLE_PRELOAD_COUNT = 20;
-
+        public const int PROJECTILE_PRELOAD_COUNT = 20;
+        
         #endregion
         
         #region attributs
 
-        [SerializeField] private Projectile _projectilePrefab;
+        [FormerlySerializedAs("_projectilePrefab")] 
+        [SerializeField] private PlayerProjectile playerProjectilePrefab;
         [SerializeField] private float _attackRate;
 
         private float _nextAttackTime;
         
-        private ObjectPool<Projectile> _projectilePool;
+        private bool _attacking;
+        
+        private ObjectPool<PlayerProjectile> _projectilePool;
 
         private PlayerInputData _inputData;
         
@@ -33,49 +37,64 @@ namespace Game.Scripts.Player
         {
             _inputData = playerInputData;
             _inputData._inputController = inputController;
-            _inputData._inputController.Subscribe(this, Shoot, _inputData.PlayerInput.Shoot);
+            _inputData._inputController.Subscribe(
+                this,
+                ShootPerformedAsync,
+                ShootCanceled,
+                _inputData.PlayerInput.Shoot);
             
-            _projectilePool = new ObjectPool<Projectile>(
-                Preload, 
-                GetAction, 
-                ReturnAction, 
-                MISSLE_PRELOAD_COUNT);
+            _projectilePool = new ObjectPool<PlayerProjectile>(
+                Preload,
+                GetAction,
+                ReturnAction,
+                PROJECTILE_PRELOAD_COUNT);
             
             Debug.Log("PlayerShoot successfully initialize!");
         }
 
-        private void OnDestroy() => _inputData._inputController.UnSubscribe(this);
+        private void FixedUpdate()
+        {
+            if (_attacking)
+                ShootPerformedAsync();
+        }
 
-        private void Shoot()
+        private async void ShootPerformedAsync()
         {
             if(Time.time < _nextAttackTime)
                 return;
 
+            _attacking = true;
+            
             _nextAttackTime = Time.time + 1.0f / _attackRate;
 
-            Projectile projectile = _projectilePool.Get();
-            projectile.Launch();
+            PlayerProjectile playerProjectile = _projectilePool.Get();
+            playerProjectile.Launch();
             
-            DeactivateProjectile(projectile, 3);
+           await DeactivateProjectileAsync(playerProjectile, playerProjectile.LifeTime);
         }
+        private void ShootCanceled() => _attacking = false;
         
-        private async void DeactivateProjectile(Projectile projectile, float _lifeTime = 2)
+        public async UniTask DeactivateProjectileAsync(PlayerProjectile playerProjectile, float _lifeTime)
         {
-            await Task.Delay(TimeSpan.FromSeconds(_lifeTime));
-            _projectilePool.Return(projectile);
+            await UniTask.Delay(TimeSpan.FromSeconds(_lifeTime));
+            
+            if(playerProjectile.gameObject.activeInHierarchy)
+                _projectilePool.Return(playerProjectile);
         }
 
-        public Projectile Preload() 
-            => Instantiate(_projectilePrefab, transform, true);
+        private PlayerProjectile Preload() 
+            => Instantiate(playerProjectilePrefab, transform, true);
         
-        public void ReturnAction(Projectile projectile) 
-            => projectile.gameObject.SetActive(false);
+        private void ReturnAction(PlayerProjectile playerProjectile) 
+            => playerProjectile.gameObject.SetActive(false);
         
-        public void GetAction(Projectile projectile)
+        private void GetAction(PlayerProjectile playerProjectile)
         {
-            projectile.transform.SetPositionAndRotation
+            playerProjectile.transform.SetPositionAndRotation
                 (transform.position + (Vector3)Vector2.up * 0.5f, transform.rotation);
-            projectile.gameObject.SetActive(true);
+            playerProjectile.gameObject.SetActive(true);
         }
+        
+        private void OnDestroy() => _inputData._inputController.UnSubscribe(this);
     }
 }

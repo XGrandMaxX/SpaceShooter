@@ -3,21 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - ship
-  - asteroid
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Projectile
+  - IgnoreProjectileCollision
   - Water
   - UI
-  - Ship
-  - 
-  - 
-  - 
-  - 
+  - PlayerShip
+  - EnemyShip
+  - PlayerProjectile
+  - EnemyProjectile
+  - Buff
   - 
   - 
   - 
