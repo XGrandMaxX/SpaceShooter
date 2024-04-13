@@ -9,7 +9,7 @@ using Zenject;
 
 namespace Game.Scripts.Player
 {
-    public sealed class PlayerCollision : MonoBehaviour
+    public sealed class PlayerCollision : MonoBehaviour, IPlayerCollision
     {
         public event Action OnDied;
         
