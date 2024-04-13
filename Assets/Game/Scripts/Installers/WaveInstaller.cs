@@ -13,7 +13,11 @@ namespace Game.Scripts.Installers
 
         private void Bind()
         {
-            Container.Bind<WaveData>().FromInstance(_waveData).AsSingle().NonLazy();
+            Container.Bind<WaveData>()
+                .FromInstance(_waveData)
+                .AsSingle()
+                .NonLazy();
+            
             Container.Bind<WaveController>().AsSingle().NonLazy();
         }
     }

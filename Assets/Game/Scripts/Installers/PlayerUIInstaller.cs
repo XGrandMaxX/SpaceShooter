@@ -10,6 +10,7 @@ namespace Game.Scripts.Installers
     {
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private Image _healthImage;
+        [SerializeField] private GameObject _gameOverPanel;
         
         public override void InstallBindings() => Bind();
 
@@ -17,6 +18,7 @@ namespace Game.Scripts.Installers
         {
             Container.BindInstance(_scoreText).WhenInjectedInto<PlayerUI>();
             Container.BindInstance(_healthImage).WhenInjectedInto<PlayerUI>();
+            Container.BindInstance(_gameOverPanel).WhenInjectedInto<PlayerUI>();
             Container.Bind<PlayerUI>().AsSingle().NonLazy();
         }
     }

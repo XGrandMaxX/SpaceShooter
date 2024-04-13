@@ -12,7 +12,11 @@ namespace Game.Scripts.Installers
 
         private void Bind()
         {
-            Container.Bind<Buff[]>().WithId("Buffs").FromInstance(_buffs).AsTransient();
+            Container.Bind<Buff[]>()
+                .WithId("Buffs")
+                .FromInstance(_buffs)
+                .AsTransient();
+            
             Container.Bind<BuffFactory>().AsSingle().NonLazy();
         }
     }

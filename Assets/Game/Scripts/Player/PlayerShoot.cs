@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.Scripts.Systems;
 using Game.Scripts.Objects;
@@ -76,6 +77,7 @@ namespace Game.Scripts.Player
         
         public async UniTask DeactivateProjectileAsync(PlayerProjectile playerProjectile, float _lifeTime)
         {
+            
             await UniTask.Delay(TimeSpan.FromSeconds(_lifeTime));
             
             if(playerProjectile.gameObject.activeInHierarchy)
@@ -94,7 +96,7 @@ namespace Game.Scripts.Player
                 (transform.position + (Vector3)Vector2.up * 0.5f, transform.rotation);
             playerProjectile.gameObject.SetActive(true);
         }
-        
+
         private void OnDestroy() => _inputData._inputController.UnSubscribe(this);
     }
 }
