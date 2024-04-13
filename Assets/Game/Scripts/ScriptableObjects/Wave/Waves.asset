@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentWaveNumber: 0
   Waves:
-  - NextWaveDelay: 3
+  - NextWaveDelay: 6
     Enemy:
     - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
       SpawnDelay: 0.7
@@ -22,3 +22,89 @@ MonoBehaviour:
     - SpawnPrefab: {fileID: -5351934961763836763, guid: 39618d8f020710241910480ffede2415, type: 3}
       SpawnDelay: 0.3
       Amount: 5
+    - SpawnPrefab: {fileID: -5351934961763836763, guid: 39618d8f020710241910480ffede2415, type: 3}
+      SpawnDelay: 0.3
+      Amount: 12
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.5
+      Amount: 15
+  - NextWaveDelay: 6
+    Enemy:
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.7
+      Amount: 12
+    - SpawnPrefab: {fileID: -5351934961763836763, guid: 39618d8f020710241910480ffede2415, type: 3}
+      SpawnDelay: 0.3
+      Amount: 5
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.3
+      Amount: 5
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.3
+      Amount: 14
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.3
+      Amount: 8
+    - SpawnPrefab: {fileID: -5351934961763836763, guid: 39618d8f020710241910480ffede2415, type: 3}
+      SpawnDelay: 0.3
+      Amount: 12
+  - NextWaveDelay: 6
+    Enemy:
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.7
+      Amount: 12
+    - SpawnPrefab: {fileID: -5351934961763836763, guid: 39618d8f020710241910480ffede2415, type: 3}
+      SpawnDelay: 0.3
+      Amount: 5
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.3
+      Amount: 5
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.3
+      Amount: 14
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.3
+      Amount: 8
+    - SpawnPrefab: {fileID: -5351934961763836763, guid: 39618d8f020710241910480ffede2415, type: 3}
+      SpawnDelay: 0.3
+      Amount: 12
+  - NextWaveDelay: 6
+    Enemy:
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.7
+      Amount: 12
+    - SpawnPrefab: {fileID: -5351934961763836763, guid: 39618d8f020710241910480ffede2415, type: 3}
+      SpawnDelay: 0.3
+      Amount: 5
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.3
+      Amount: 5
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.3
+      Amount: 14
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.3
+      Amount: 8
+    - SpawnPrefab: {fileID: -5351934961763836763, guid: 39618d8f020710241910480ffede2415, type: 3}
+      SpawnDelay: 0.3
+      Amount: 12
+  - NextWaveDelay: 6
+    Enemy:
+    - SpawnPrefab: {fileID: -5351934961763836763, guid: 39618d8f020710241910480ffede2415, type: 3}
+      SpawnDelay: 1
+      Amount: 12
+    - SpawnPrefab: {fileID: -5351934961763836763, guid: 39618d8f020710241910480ffede2415, type: 3}
+      SpawnDelay: 0.3
+      Amount: 5
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.3
+      Amount: 5
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.3
+      Amount: 14
+    - SpawnPrefab: {fileID: 1325209546796746062, guid: 724cd4a9ff4881943b48636320ef370a, type: 3}
+      SpawnDelay: 0.3
+      Amount: 8
+    - SpawnPrefab: {fileID: -5351934961763836763, guid: 39618d8f020710241910480ffede2415, type: 3}
+      SpawnDelay: 0.3
+      Amount: 12

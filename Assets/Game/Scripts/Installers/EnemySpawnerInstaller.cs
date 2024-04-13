@@ -15,8 +15,16 @@ namespace Game.Scripts.Installers
 
         private void Bind()
         {
-            Container.Bind<Transform[]>().WithId("SpawnPositions").FromInstance(_spawnPositions).AsTransient();
-            Container.Bind<Transform[]>().WithId("EndPositions").FromInstance(_endPositions).AsTransient();
+            Container.Bind<Transform[]>()
+                .WithId("SpawnPositions")
+                .FromInstance(_spawnPositions)
+                .AsTransient();
+            
+            Container.Bind<Transform[]>()
+                .WithId("EndPositions")
+                .FromInstance(_endPositions)
+                .AsTransient();
+            
             Container.BindInstance(_parentTransform).WhenInjectedInto<EnemyShipSpawner>();
             Container.Bind<EnemyShipSpawner>().AsSingle().NonLazy();
         }

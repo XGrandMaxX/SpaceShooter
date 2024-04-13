@@ -23,21 +23,23 @@ namespace Game.Scripts.Enemies
 
         protected internal virtual void Die(Tween tween, bool animationEnded = false)
         {
-            if(!animationEnded)
+            if (!animationEnded)
+            {
+                BuffFactory.CreateBuff(transform, true);
                 OnDied?.Invoke(_enemyData.Score);
+            }
             
             tween.Kill();
             
             WaveController.EnemyCount -= 1; //:)
-            
-            BuffFactory.CreateBuff(transform, true);
             
             Destroy(gameObject);
         }
 
         protected internal virtual async void TakeDamage(byte amount, PlayerProjectile projectile)
         {
-            await _playerShoot.DeactivateProjectileAsync(projectile, 0);
+            await _playerShoot.DeactivateProjectileAsync(
+                projectile, 0);
             
             newData.Health -= amount;
             
